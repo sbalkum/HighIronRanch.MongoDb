@@ -30,9 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HighIronRanch.Core, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="HighIronRanch.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\HighIronRanch.Core.1.0.1.0\lib\net45\HighIronRanch.Core.dll</HintPath>
+      <HintPath>..\packages\HighIronRanch.Core.1.0.0.0\lib\net45\HighIronRanch.Core.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Bson">
       <HintPath>..\packages\mongocsharpdriver.1.9.2\lib\net35\MongoDB.Bson.dll</HintPath>
