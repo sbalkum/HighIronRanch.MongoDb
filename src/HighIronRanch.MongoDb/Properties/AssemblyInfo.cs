@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("HighIronRanch.MongoDb")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Implementations of HighIronRanch.Core specific to MongoDb")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Stephen Balkum")]
 [assembly: AssemblyProduct("HighIronRanch.MongoDb")]
-[assembly: AssemblyCopyright("Copyright ©  2014")]
+[assembly: AssemblyCopyright("Copyright © 2015 Stephen Balkum")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

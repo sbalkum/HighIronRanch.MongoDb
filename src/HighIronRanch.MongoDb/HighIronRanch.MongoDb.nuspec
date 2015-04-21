@@ -1,0 +1,19 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+	<id>HighIronRanch.MongoDb</id>
+	<version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+	<licenseUrl>https://github.com/sbalkum/HighIronRanch.MongoDb/blob/master/LICENSE</licenseUrl>
+	<projectUrl>https://github.com/sbalkum/HighIronRanch.MongoDb</projectUrl>
+	<requireLicenseAcceptance>false</requireLicenseAcceptance>
+	<description>$description$</description>
+	<summary>$description$</summary>
+	<copyright>$copyright$</copyright>
+  </metadata>
+  <files>
+	<file src="bin\Release\HighIronRanch.MongoDb.pdb" target="lib\net45\HighIronRanch.MongoDb.pdb" />
+  </files>
+</package>
