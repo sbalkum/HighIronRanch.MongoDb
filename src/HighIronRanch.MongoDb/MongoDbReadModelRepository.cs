@@ -34,7 +34,7 @@ namespace HighIronRanch.MongoDb
 
 		protected string GetCollectionName(Type type)
 		{
-			return type.ToString().Replace("Portal.Core.", "Portal.");
+			return type.ToString();
 		}
 
 		protected MongoCollection<T> GetCollection<T>() where T : IReadModel
