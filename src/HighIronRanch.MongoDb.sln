@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HighIronRanch.MongoDb", "HighIronRanch.MongoDb\HighIronRanch.MongoDb.csproj", "{C5F2A523-B582-4C0B-A430-C71755B2910E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HighIronRanch.MongoDb.Test.Integration", "HighIronRanch.MongoDb.Test.Integration\HighIronRanch.MongoDb.Test.Integration.csproj", "{5F6155CA-56A1-41F0-8564-BEC1462D7FAF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{C5F2A523-B582-4C0B-A430-C71755B2910E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5F2A523-B582-4C0B-A430-C71755B2910E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5F2A523-B582-4C0B-A430-C71755B2910E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F6155CA-56A1-41F0-8564-BEC1462D7FAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F6155CA-56A1-41F0-8564-BEC1462D7FAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F6155CA-56A1-41F0-8564-BEC1462D7FAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F6155CA-56A1-41F0-8564-BEC1462D7FAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

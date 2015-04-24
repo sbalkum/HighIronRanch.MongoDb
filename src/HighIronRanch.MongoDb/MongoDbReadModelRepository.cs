@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using HighIronRanch.Core;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using MongoDB.Driver.Linq;
@@ -11,8 +10,10 @@ namespace HighIronRanch.MongoDb
 {
 	public class MongoDbReadModelRepository : IReadModelRepository
 	{
-		private readonly string _connectionString;
-		private readonly string _databaseName;
+		protected const int MaxNumberOfAttempts = 3;
+
+		protected string _connectionString;
+		protected readonly string _databaseName;
 
 		public MongoDbReadModelRepository(IMongoDbReadModelSettings settings)
 		{
@@ -20,14 +21,13 @@ namespace HighIronRanch.MongoDb
 			_databaseName = settings.MongoDbReadModelDatabase;
 		}
 
-		// public for integration tests
-		public MongoServer GetServer()
+		protected MongoServer GetServer()
 		{
 			var client = new MongoClient(_connectionString);
 			return client.GetServer();
 		}
 
-		public MongoDatabase GetDatabase()
+		protected MongoDatabase GetDatabase()
 		{
 			return GetServer().GetDatabase(_databaseName);
 		}
@@ -45,21 +45,44 @@ namespace HighIronRanch.MongoDb
 
 		public IQueryable<T> Get<T>() where T : IReadModel, new()
 		{
-			return (((MongoCollection)GetCollection<T>()).AsQueryable<T>());
+			return RunRetriable(() => (((MongoCollection) GetCollection<T>()).AsQueryable<T>()));
 		}
 
 		public IQueryable<object> Get(Type type)
 		{
-			var collectionName = GetCollectionName(type);
-			var collection = GetDatabase().GetCollection(collectionName);
-			return collection.AsQueryable();
+			return RunRetriable(() =>
+			{
+				var collectionName = GetCollectionName(type);
+				var collection = GetDatabase().GetCollection(collectionName);
+				return collection.AsQueryable();
+			});
 		}
 
 		public T GetById<T>(Guid id) where T : IReadModel, new()
 		{
-			var collection = GetCollection<T>();
-			var query = Query.EQ("_id", id);
-			return (collection.FindOne(query));
+			return RunRetriable(() =>
+			{
+				var collection = GetCollection<T>();
+				var query = Query.EQ("_id", id);
+				return (collection.FindOne(query));
+			});
+		}
+
+		protected static T RunRetriable<T>(Func<T> action)
+		{
+			for (int i = 1; i <= MaxNumberOfAttempts; i++)
+			{
+				try
+				{
+					return action();
+				}
+				catch (IOException)
+				{
+					if (i == MaxNumberOfAttempts)
+						throw;
+				}
+			}
+			throw new Exception("Something went wrong after " + MaxNumberOfAttempts + " attempts");
 		}
 	}
 }
