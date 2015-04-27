@@ -47,7 +47,7 @@ namespace HighIronRanch.MongoDb.Test.Integration
 			protected static TestModel model;
 			protected static TestModel modelRead;
 
-			private Establish concernContext = () =>
+			private Establish simpleContext = () =>
 			{
 				CreateSettings(string.Empty);
 
@@ -66,6 +66,38 @@ namespace HighIronRanch.MongoDb.Test.Integration
 		    private It should_read_the_correct_model_id = () => modelRead.Id.ShouldEqual(model.Id);
 			private It should_read_the_correct_model_value = () => modelRead.Value.ShouldEqual(model.Value);
 	    }
+
+		public class When_writing_several_to_a_collection : SimpleConcern
+		{
+			protected static List<TestModel> models = new List<TestModel>();
+			protected static IEnumerable<TestModel> modelsRead;
+
+			private Establish concernContext = () =>
+			{
+				for (int i = 0; i < 10; i++)
+				{
+					models.Add(TestModel.NewTestModel());
+				}
+			};
+
+			private Because of = () =>
+			{
+				sut.Insert(models);
+				modelsRead = sut.Get<TestModel>();
+			};
+
+			private It should_read_all_models = () =>
+			{
+				var dict = new Dictionary<Guid, string>();
+
+				foreach (var m in modelsRead)
+				{
+					models.Contains(m).ShouldEqual(true);
+					dict.Add(m.Id, m.Value);
+				}
+				dict.Count.ShouldEqual(models.Count);
+			};
+		}
 
 		public class When_deleting_a_model_from_a_collection : SimpleConcern
 	    {
@@ -209,7 +241,22 @@ namespace HighIronRanch.MongoDb.Test.Integration
 				Id = Guid.NewGuid(),
 				Value = DateTime.Now.ToLongTimeString()
 			};
-		} 
+		}
+
+		public override bool Equals(object obj)
+		{
+			var m = obj as TestModel;
+
+			if (m == null)
+				return false;
+
+			return m.Id == Id && m.Value == Value;
+		}
+
+		public override int GetHashCode()
+		{
+			return Id.GetHashCode();
+		}
 	}
 
 }
