@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using HighIronRanch.Core;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -14,25 +15,49 @@ namespace HighIronRanch.MongoDb
 		{
 		}
 
+		public async Task TruncateAsync<T>() where T : IReadModel
+		{
+			await Task.Run(() => RunRetriable(() => GetDatabase().DropCollection(GetCollectionName(typeof (T)))));
+		}
+
 		public void Truncate<T>() where T : IReadModel
 		{
-			RunRetriable(() => GetDatabase().DropCollection(GetCollectionName(typeof(T))));
+			var task = TruncateAsync<T>();
+			task.Wait();
+		}
+
+		public async Task SaveAsync<T>(T item) where T : IReadModel
+		{
+			await Task.Run(() => RunRetriable(() => GetCollection<T>().Save(item)));
 		}
 
 		public void Save<T>(T item) where T : IReadModel
 		{
-			RunRetriable(() => GetCollection<T>().Save(item));
+			var task = SaveAsync<T>(item);
+			task.Wait();
 		}
 
-		public void Insert<T>(IEnumerable<T> items) where T : IReadModel
+		public async Task DeleteAsync<T>(T item) where T : IReadModel
 		{
-			RunRetriable(() => GetCollection<T>().InsertBatch(items));
+			var query = Query.EQ("_id", BsonValue.Create(item.Id));
+			await Task.Run(() => RunRetriable(() => GetCollection<T>().Remove(query)));
 		}
 
 		public void Delete<T>(T item) where T : IReadModel
 		{
-			var query = Query.EQ("_id", BsonValue.Create(item.Id));
-			RunRetriable(() => GetCollection<T>().Remove(query));
+			var task = DeleteAsync<T>(item);
+			task.Wait();
+		}
+
+		public async Task InsertAsync<T>(IEnumerable<T> items) where T : IReadModel
+		{
+			await Task.Run(() => RunRetriable(() => GetCollection<T>().InsertBatch(items)));
+		}
+
+		public void Insert<T>(IEnumerable<T> items) where T : IReadModel
+		{
+			var task = InsertAsync<T>(items);
+			task.Wait();
 		}
 
 		public void BulkSetProperty<T>(IEnumerable<Guid> ids, string propertyName, object value) where T : IReadModel

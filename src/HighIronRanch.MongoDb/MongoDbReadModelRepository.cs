@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using HighIronRanch.Core;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
@@ -43,29 +44,51 @@ namespace HighIronRanch.MongoDb
 			return GetDatabase().GetCollection<T>(collectionName);
 		}
 
+		public async Task<IQueryable<T>> GetAsync<T>() where T : IReadModel, new()
+		{
+			IQueryable<T> results = null;
+
+			await Task.Run(() => results = RunRetriable(() => (((MongoCollection)GetCollection<T>()).AsQueryable<T>())));
+			return results;
+		}
+
 		public IQueryable<T> Get<T>() where T : IReadModel, new()
 		{
-			return RunRetriable(() => (((MongoCollection) GetCollection<T>()).AsQueryable<T>()));
+			var task = GetAsync<T>();
+			task.Wait();
+			return task.Result;
+		}
+
+		public async Task<IQueryable<object>> GetAsync(Type type)
+		{
+			IQueryable<object> results = null;
+
+			await Task.Run(() => results = RunRetriable(() => GetDatabase().GetCollection(GetCollectionName(type)).AsQueryable()));
+			return results;
 		}
 
 		public IQueryable<object> Get(Type type)
 		{
-			return RunRetriable(() =>
-			{
-				var collectionName = GetCollectionName(type);
-				var collection = GetDatabase().GetCollection(collectionName);
-				return collection.AsQueryable();
-			});
+			var task = GetAsync(type);
+			task.Wait();
+			return task.Result;
+		}
+
+		public async Task<T> GetByIdAsync<T>(Guid id) where T : IReadModel, new()
+		{
+			var result = default(T);
+			var query = Query.EQ("_id", id);
+
+			await Task.Run(() => result = GetCollection<T>().FindOne(query));
+
+			return result;
 		}
 
 		public T GetById<T>(Guid id) where T : IReadModel, new()
 		{
-			return RunRetriable(() =>
-			{
-				var collection = GetCollection<T>();
-				var query = Query.EQ("_id", id);
-				return (collection.FindOne(query));
-			});
+			var task = GetByIdAsync<T>(id);
+			task.Wait();
+			return task.Result;
 		}
 
 		protected static T RunRetriable<T>(Func<T> action)

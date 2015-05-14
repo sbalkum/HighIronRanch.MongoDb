@@ -37,15 +37,15 @@
       <HintPath>..\packages\developwithpassion.specifications.rhinomocks.0.6.0\lib\developwithpassion.specifications.rhinomocks.dll</HintPath>
     </Reference>
     <Reference Include="HighIronRanch.Core">
-      <HintPath>..\packages\HighIronRanch.Core.1.0.0.0\lib\net45\HighIronRanch.Core.dll</HintPath>
+      <HintPath>..\packages\HighIronRanch.Core.1.0.5.0\lib\net45\HighIronRanch.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Machine.Fakes, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Machine.Fakes, Version=2.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Machine.Fakes.2.5.0\lib\net40\Machine.Fakes.dll</HintPath>
+      <HintPath>..\packages\Machine.Fakes.2.6.0\lib\net40\Machine.Fakes.dll</HintPath>
     </Reference>
-    <Reference Include="Machine.Fakes.Adapters.RhinoMocks, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Machine.Fakes.Adapters.RhinoMocks, Version=2.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Machine.Fakes.RhinoMocks.2.5.0\lib\net40\Machine.Fakes.Adapters.RhinoMocks.dll</HintPath>
+      <HintPath>..\packages\Machine.Fakes.RhinoMocks.2.6.0\lib\net40\Machine.Fakes.Adapters.RhinoMocks.dll</HintPath>
     </Reference>
     <Reference Include="Machine.Specifications, Version=0.9.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -65,6 +65,9 @@
     <Reference Include="MongoDB.Driver, Version=1.9.2.235, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\mongocsharpdriver.1.9.2\lib\net35\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Rhino.Mocks">
       <HintPath>..\packages\RhinoMocks.3.6.1\lib\net\Rhino.Mocks.dll</HintPath>
