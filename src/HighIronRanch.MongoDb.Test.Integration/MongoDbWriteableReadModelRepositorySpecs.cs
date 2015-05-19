@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using developwithpassion.specifications.extensions;
 using developwithpassion.specifications.rhinomocks;
 using HighIronRanch.Core;
@@ -60,8 +61,11 @@ namespace HighIronRanch.MongoDb.Test.Integration
 		    private Because of = () =>
 		    {
 			    sut.Save(model);
+			    var models = sut.Get<TestModel>().ToList();
+			    var task = sut.GetAsync<TestModel>();
+			    var models2 = task.Result.ToList();
 				modelRead = sut.GetById<TestModel>(model.Id);
-		    };
+			};
 
 			private It should_read_the_correct_model_id = () => modelRead.Id.ShouldEqual(model.Id);
 			private It should_read_the_correct_model_value = () => modelRead.Value.ShouldEqual(model.Value);
@@ -130,7 +134,7 @@ namespace HighIronRanch.MongoDb.Test.Integration
 			};
 
 			private It should_throw_an_exception =
-				() => _expectedException.ShouldBeOfExactType(typeof (AggregateException));
+				() => _expectedException.ShouldBeOfExactType(typeof (ArgumentException));
 		}
 
 		public class When_the_socket_is_really_slow : CleaningConcern
