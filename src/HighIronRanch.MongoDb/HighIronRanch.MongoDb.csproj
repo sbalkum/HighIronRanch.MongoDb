@@ -49,6 +49,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollectionNamer.cs" />
+    <Compile Include="ICollectionNamer.cs" />
     <Compile Include="MongoDbReadModelRepository.cs" />
     <Compile Include="IMongoDbReadModelSettings.cs" />
     <Compile Include="MongoDbWritableReadModelRepository.cs" />
@@ -59,7 +61,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>nuget pack "$(ProjectPath)" -Prop Configuration=$(ConfigurationName)</PostBuildEvent>
+    <PostBuildEvent>if "$(ConfigurationName)"=="Release" nuget pack "$(ProjectPath)" -Prop Configuration=$(ConfigurationName)</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>del *.nupkg</PreBuildEvent>

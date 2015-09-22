@@ -32,6 +32,9 @@ namespace HighIronRanch.MongoDb.Test.Integration
 				settings = depends.@on<IMongoDbReadModelSettings>();
 				settings.setup(s => s.MongoDbReadModelConnectionString).Return(connectionString + connectionStringPostfix);
 				settings.setup(s => s.MongoDbReadModelDatabase).Return(DatabaseName);
+
+                var collectionNamer = new CollectionNamer();
+			    depends.on<ICollectionNamer>(collectionNamer);
 			}
 	    }
 
@@ -193,7 +196,7 @@ namespace HighIronRanch.MongoDb.Test.Integration
 
 	public class TestableMongoDbWritableReadModelRepository : MongoDbWritableReadModelRepository
 	{
-		public TestableMongoDbWritableReadModelRepository(IMongoDbReadModelSettings settings) : base(settings)
+		public TestableMongoDbWritableReadModelRepository(IMongoDbReadModelSettings settings, ICollectionNamer collectionNamer) : base(settings, collectionNamer)
 		{
 		}
 

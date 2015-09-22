@@ -9,16 +9,18 @@ using MongoDB.Driver.Linq;
 
 namespace HighIronRanch.MongoDb
 {
-	public class MongoDbReadModelRepository : IReadModelRepository
+    public class MongoDbReadModelRepository : IReadModelRepository
 	{
-		protected const int MaxNumberOfAttempts = 3;
+        private readonly ICollectionNamer _collectionNamer;
+        protected const int MaxNumberOfAttempts = 3;
 
 		protected string _connectionString;
 		protected readonly string _databaseName;
 
-		public MongoDbReadModelRepository(IMongoDbReadModelSettings settings)
+		public MongoDbReadModelRepository(IMongoDbReadModelSettings settings, ICollectionNamer collectionNamer)
 		{
-			_connectionString = settings.MongoDbReadModelConnectionString;
+		    _collectionNamer = collectionNamer;
+		    _connectionString = settings.MongoDbReadModelConnectionString;
 			_databaseName = settings.MongoDbReadModelDatabase;
 		}
 
@@ -35,7 +37,7 @@ namespace HighIronRanch.MongoDb
 
 		protected string GetCollectionName(Type type)
 		{
-			return type.ToString();
+		    return _collectionNamer.GetCollectionName(type);
 		}
 
 		protected MongoCollection<T> GetCollection<T>() where T : IReadModel

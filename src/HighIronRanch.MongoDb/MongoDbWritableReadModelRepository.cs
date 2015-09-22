@@ -11,7 +11,7 @@ namespace HighIronRanch.MongoDb
 {
 	public class MongoDbWritableReadModelRepository : MongoDbReadModelRepository, IWritableReadModelRepository
 	{
-		public MongoDbWritableReadModelRepository(IMongoDbReadModelSettings settings) : base(settings)
+		public MongoDbWritableReadModelRepository(IMongoDbReadModelSettings settings, ICollectionNamer collectionNamer) : base(settings, collectionNamer)
 		{
 		}
 
