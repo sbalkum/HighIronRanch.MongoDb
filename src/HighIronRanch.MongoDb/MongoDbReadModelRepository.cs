@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using HighIronRanch.Core;
+using HighIronRanch.Core.Services;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using MongoDB.Driver.Linq;
@@ -11,7 +12,7 @@ namespace HighIronRanch.MongoDb
 {
     public class MongoDbReadModelRepository : IReadModelRepository
 	{
-        private readonly ICollectionNamer _collectionNamer;
+        protected readonly ICollectionNamer _collectionNamer;
         protected const int MaxNumberOfAttempts = 3;
 
 		protected string _connectionString;

@@ -28,6 +28,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <NoWarn>618</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="developwithpassion.specifications">
@@ -36,9 +37,9 @@
     <Reference Include="developwithpassion.specifications.rhinomocks">
       <HintPath>..\packages\developwithpassion.specifications.rhinomocks.0.6.0\lib\developwithpassion.specifications.rhinomocks.dll</HintPath>
     </Reference>
-    <Reference Include="HighIronRanch.Core, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\HighIronRanch.Core.1.0.6.0\lib\net45\HighIronRanch.Core.dll</HintPath>
+    <Reference Include="HighIronRanch.Core, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HighIronRanch.Core.1.0.8.0\lib\net45\HighIronRanch.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Machine.Fakes, Version=2.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

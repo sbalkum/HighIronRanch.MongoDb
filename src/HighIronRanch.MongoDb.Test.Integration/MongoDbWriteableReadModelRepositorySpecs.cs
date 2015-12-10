@@ -5,6 +5,7 @@ using System.Linq;
 using developwithpassion.specifications.extensions;
 using developwithpassion.specifications.rhinomocks;
 using HighIronRanch.Core;
+using HighIronRanch.Core.Services;
 using Machine.Specifications;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -15,6 +16,14 @@ namespace HighIronRanch.MongoDb.Test.Integration
     {
 		protected const string DatabaseName = "HighIronRanchMongoDbIntegrationTest";
 		protected const string connectionStringFile = "C:\\temp\\HighIronRanch.MongoDb.Test.ConnectionString.txt";
+
+	    public class CollectionNamer : ICollectionNamer
+	    {
+	        public string GetCollectionName(Type type)
+	        {
+	            return type.ToString();
+	        }
+	    }
 
 		[Subject(typeof(TestableMongoDbWritableReadModelRepository))]
 	    public class Concern : Observes<TestableMongoDbWritableReadModelRepository>
