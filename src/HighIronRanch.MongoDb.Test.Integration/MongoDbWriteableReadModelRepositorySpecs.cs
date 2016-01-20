@@ -30,7 +30,7 @@ namespace HighIronRanch.MongoDb.Test.Integration
 	    {
 		    protected static IMongoDbReadModelSettings settings;
 
-			protected static void CreateSettings(string connectionStringPostfix)
+            protected static void CreateSettings(string connectionStringPrefix, string connectionStringPostfix)
 			{
 				if (!File.Exists(connectionStringFile))
 				{
@@ -39,7 +39,7 @@ namespace HighIronRanch.MongoDb.Test.Integration
 				var connectionString = File.ReadAllText(connectionStringFile);
 
 				settings = depends.@on<IMongoDbReadModelSettings>();
-				settings.setup(s => s.MongoDbReadModelConnectionString).Return(connectionString + connectionStringPostfix);
+				settings.setup(s => s.MongoDbReadModelConnectionString).Return(connectionStringPrefix + connectionString + connectionStringPostfix);
 				settings.setup(s => s.MongoDbReadModelDatabase).Return(DatabaseName);
 
                 var collectionNamer = new CollectionNamer();
@@ -62,7 +62,7 @@ namespace HighIronRanch.MongoDb.Test.Integration
 
 			private Establish simpleContext = () =>
 			{
-				CreateSettings(string.Empty);
+				CreateSettings(string.Empty, string.Empty);
 
 				model = TestModel.NewTestModel();
 			};
@@ -135,7 +135,7 @@ namespace HighIronRanch.MongoDb.Test.Integration
 
 			private Establish context = () =>
 			{
-				CreateSettings("?garbage=1");
+				CreateSettings("x", string.Empty);
 
 				model = TestModel.NewTestModel();
 			};
@@ -146,7 +146,7 @@ namespace HighIronRanch.MongoDb.Test.Integration
 			};
 
 			private It should_throw_an_exception =
-				() => _expectedException.ShouldBeOfExactType(typeof (ArgumentException));
+				() => _expectedException.ShouldBeOfExactType(typeof (MongoConfigurationException));
 		}
 
 		public class When_the_socket_is_really_slow : CleaningConcern
@@ -157,7 +157,7 @@ namespace HighIronRanch.MongoDb.Test.Integration
 
 			private Establish context = () =>
 			{
-				CreateSettings("?socketTimeoutMS=1000");
+				CreateSettings(string.Empty, "?socketTimeoutMS=1000");
 
 				models = new List<TestModel>();
 				for (int i = 0; i < 10; i++)
@@ -173,7 +173,7 @@ namespace HighIronRanch.MongoDb.Test.Integration
 			};
 
 			private It should_throw_an_exception =
-				() => _expectedException.ShouldBeOfExactType(typeof(System.IO.IOException));
+				() => _expectedException.ShouldBeOfExactType(typeof(MongoConnectionException));
 		}
 
 		public class When_the_socket_is_retried : CleaningConcern
@@ -183,7 +183,7 @@ namespace HighIronRanch.MongoDb.Test.Integration
 
 			private Establish context = () =>
 			{
-				CreateSettings(string.Empty);
+				CreateSettings(string.Empty, string.Empty);
 
 				models = new List<TestModel>();
 				for (int i = 0; i < 2; i++)
@@ -236,8 +236,8 @@ namespace HighIronRanch.MongoDb.Test.Integration
 				{
 					return GetSlowly<T>();
 				}
-				catch (IOException)
-				{
+				catch (MongoConnectionException)
+                {
 				}
 			}
 
